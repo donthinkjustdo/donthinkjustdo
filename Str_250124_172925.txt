@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starbridge 🌈✨️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to top, #1e3c72, #2a5298);
+      color: white;
+      padding: 20px;
+    }
+    .logo {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .input-box, .output-box {
+      margin: 20px auto;
+      padding: 10px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .pegasus-output {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .compass-container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">🌈 Starbridge 🌟</div>
+  <div class="input-box">
+    <h3>Emoji Balance System</h3>
+    <input type="text" id="emojiInput" placeholder="Enter an emoji">
+    <button onclick="balanceEmoji()">Balance</button>
+    <p id="emojiOutput"></p>
+  </div>
+
+  <div class="input-box">
+    <h3>Pegasus Algorithm (3-6-9)</h3>
+    <button onclick="generatePegasus()">Generate</button>
+    <p id="pegasusOutput" class="pegasus-output"></p>
+  </div>
+
+  <div class="compass-container">
+    <h3>Compass</h3>
+    <p id="compassOutput">Sun's path: 22° | North Star: 23.5°</p>
+  </div>
+
+  <div class="input-box">
+    <h3>AI Assistant</h3>
+    <button onclick="startListening()">🎤 Speak</button>
+    <p id="aiOutput"></p>
+  </div>
+
+  <script>
+    // Emoji Balance System
+    const emojiMap = {
+      "😊": "🌈",
+      "😢": "💖",
+      "🔥": "💧",
+      "✨": "✨"
+    };
+
+    function balanceEmoji() {
+      const input = document.getElementById("emojiInput").value;
+      const output = emojiMap[input] || "🌟 No match found";
+      document.getElementById("emojiOutput").innerText = `Balanced Emoji: ${output}`;
+    }
+
+    // Pegasus Algorithm
+    function generatePegasus() {
+      const pattern = [];
+      for (let i = 1; i <= 9; i++) {
+        pattern.push((i * 3) % 9 || 9);
+      }
+      document.getElementById("pegasusOutput").innerText = `Pegasus Pattern: ${pattern.join(", ")}`;
+    }
+
+    // Compass Output
+    function updateCompass() {
+      const compassOutput = "Sun's path: 22° | North Star: 23.5°";
+      document.getElementById("compassOutput").innerText = compassOutput;
+    }
+    updateCompass();
+
+    // AI Assistant
+    const aiCommands = {
+      "balance": () => balanceEmoji(),
+      "pegasus": () => generatePegasus(),
+      "compass": () => updateCompass()
+    };
+
+    function startListening() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const command = event.results[0][0].transcript.toLowerCase();
+        document.getElementById("aiOutput").innerText = `You said: ${command}`;
+        if (aiCommands[command]) aiCommands[command]();
+      };
+
+      recognition.onerror = function() {
+        document.getElementById("aiOutput").innerText = "Error recognizing speech.";
+      };
+    }
+  </script>
+</body>
+</html>
